@@ -1,5 +1,6 @@
 package com.enutek.twitter;
 
+
 import com.google.common.collect.Lists;
 import com.twitter.hbc.core.Constants;
 import com.twitter.hbc.core.Hosts;
@@ -12,14 +13,18 @@ import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
+import io.github.cdimascio.dotenv.Dotenv;
+import io.github.cdimascio.dotenv.DotenvEntry;
+
+
 public class TwitterProducer {
 
     // https://javageek.org/2015/09/25/handling-sensitive-data-using-maven/
 
-    String consumerKey = "";
-    String consumerSecret = "";
-    String token = "";
-    String secret = "";
+    String consumerKey;
+    String consumerSecret;
+    String token;
+    String secret;
 
 
 
@@ -62,6 +67,21 @@ public class TwitterProducer {
     }
 
     public static void main(String[] args) {
+
+        String consumerKey;
+
+
+        Dotenv dotenv = Dotenv.configure().load();
+
+
+        System.out.println(dotenv.get("consumerKey"));
+
+
+
+
+
+
+
 
 
     }
