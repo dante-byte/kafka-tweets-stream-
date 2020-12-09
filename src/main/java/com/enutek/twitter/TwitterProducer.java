@@ -1,6 +1,5 @@
 package com.enutek.twitter;
 
-
 import com.google.common.collect.Lists;
 import com.twitter.hbc.core.Constants;
 import com.twitter.hbc.core.Hosts;
@@ -8,30 +7,22 @@ import com.twitter.hbc.core.HttpHosts;
 import com.twitter.hbc.core.endpoint.StatusesFilterEndpoint;
 import com.twitter.hbc.httpclient.auth.Authentication;
 import com.twitter.hbc.httpclient.auth.OAuth1;
-
 import java.util.List;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 
 import io.github.cdimascio.dotenv.Dotenv;
-import io.github.cdimascio.dotenv.DotenvEntry;
 
 
 public class TwitterProducer {
 
-    // https://javageek.org/2015/09/25/handling-sensitive-data-using-maven/
-
-    String consumerKey;
-    String consumerSecret;
-    String token;
-    String secret;
-
-
-
-
+    private Dotenv dotenv = Dotenv.configure().load();
+    private String consumerKey = dotenv.get("consumerKey");
+    private String consumerSecret = dotenv.get("consumerSecret") ;
+    private String token = dotenv.get("token");
+    private String secret = dotenv.get("secret");
 
     public TwitterProducer() {
-
 
     }
 
@@ -61,28 +52,9 @@ public class TwitterProducer {
         // These secrets should be read from a config file
         Authentication hosebirdAuth = new OAuth1(consumerKey, consumerSecret, token, secret);
 
-
-
-
     }
 
     public static void main(String[] args) {
-
-        String consumerKey;
-
-
-        Dotenv dotenv = Dotenv.configure().load();
-
-
-        System.out.println(dotenv.get("consumerKey"));
-
-
-
-
-
-
-
-
 
     }
 }
