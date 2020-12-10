@@ -33,6 +33,8 @@ public class TwitterProducer {
     private String consumerSecret = dotenv.get("consumerSecret") ;
     private String token = dotenv.get("token");
     private String secret = dotenv.get("secret");
+    List<String> terms = Lists.newArrayList("Dante White", "Kafka Jobs");
+
 
     public TwitterProducer() {
 
@@ -51,11 +53,26 @@ public class TwitterProducer {
         client.connect();
 
 
+
+
         /**
          * kafka producer
          */
 
         KafkaProducer<String, String> producer = createKafkaProducer();
+
+        /**
+         * add shutdown hook
+         */
+
+        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+            logger.info("stopping app");
+            logger.info("shutting down client from twitter");
+            client.stop();
+            logger.info("closing prodcer");
+            producer.close(); // sends whats in memeory before app is shut down
+            logger.info("done");
+        }));
 
 
         /**
@@ -64,9 +81,12 @@ public class TwitterProducer {
 
         // \\....
         while (!client.isDone()) {
+
             String msg = null;
+
             try {
                 msg = msgQueue.poll(5, TimeUnit.SECONDS);
+
             } catch (InterruptedException e) {
                 e.printStackTrace();
                 client.stop();
@@ -100,7 +120,6 @@ public class TwitterProducer {
 
         StatusesFilterEndpoint hosebirdEndpoint = new StatusesFilterEndpoint();
 
-        List<String> terms = Lists.newArrayList("bitcoin");
 
         hosebirdEndpoint.trackTerms(terms);
 
